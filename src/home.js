@@ -1,7 +1,9 @@
 import { useState, React } from "react";
+import axios from "axios";
 
 function Home(props) {
   const shoes = props.shoes;
+  const changeShoes = props.changeShoes;
   return (
     <div>
       <div className="p-5 mb-4 bg-light rounded-3 background">
@@ -24,6 +26,19 @@ function Home(props) {
             return <Card shoe={shoe} key={index} />;
           })}
         </div>
+
+        <button
+          className="btn btn-primary"
+          onClick={() => {
+            axios
+              .get("https://codingapple1.github.io/shop/data2.json")
+              .then((result) => {
+                changeShoes([...shoes, ...result.data]);
+              })
+              .catch(() => console.log("error fetching data"));
+          }}>
+          더보기
+        </button>
       </div>
     </div>
   );
@@ -32,7 +47,13 @@ function Home(props) {
 function Card(props) {
   return (
     <div className="col-md-4">
-      <img src={props.shoe.img} width="100%" alt="" />
+      <img
+        src={`https://codingapple1.github.io/shop/shoes${
+          props.shoe.id + 1
+        }.jpg`}
+        width="100%"
+        alt=""
+      />
       <h4>{props.shoe.title}</h4>
       <p>{`${props.shoe.content} - $${props.shoe.price}`}</p>
     </div>

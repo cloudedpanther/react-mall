@@ -46,7 +46,7 @@ function App() {
 
       <Switch>
         <Route exact path="/">
-          <Home shoes={shoes} />
+          <Home shoes={shoes} changeShoes={changeShoes} />
         </Route>
 
         <Route exact path="/details/:id">
