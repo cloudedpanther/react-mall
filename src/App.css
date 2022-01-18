@@ -49,6 +49,15 @@
   color: #61dafb;
 }
 
+.tab-enter {
+  opacity: 0;
+}
+
+.tab-enter-active {
+  opacity: 1;
+  transition: all 300ms;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

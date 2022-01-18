@@ -1,11 +1,15 @@
 import { useState, React, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
+import { Nav } from "react-bootstrap";
+import { CSSTransition } from "react-transition-group";
 
 function Details(props) {
   const history = useHistory();
   const { id } = useParams();
   const shoe = props.shoes.find((e) => e.id === Number(id));
   const [isAlert, changeIsAlert] = useState(true);
+  const [tabNumber, changeTabNumber] = useState(0);
+  const [tabSwitch, changeTabSwitch] = useState(false);
 
   useEffect(() => {
     const timeOut = setTimeout(() => changeIsAlert(false), 2000);
@@ -18,7 +22,10 @@ function Details(props) {
       ) : null}
       <div className="row">
         <div className="col-md-6">
-          <img src={shoe.img} width="100%" />
+          <img
+            src={`https://codingapple1.github.io/shop/shoes${shoe.id + 1}.jpg`}
+            width="100%"
+          />
         </div>
         <div className="col-md-6 mt-4">
           <h4 className="pt-5">{shoe.title}</h4>
@@ -34,6 +41,45 @@ function Details(props) {
           </button>
         </div>
       </div>
+
+      <Nav variant="tabs" defaultActiveKey="/link-0">
+        <Nav.Item>
+          <Nav.Link
+            eventKey="link-0"
+            onClick={() => {
+              changeTabSwitch(false);
+              changeTabNumber(0);
+            }}>
+            Option 1
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link
+            eventKey="link-1"
+            onClick={() => {
+              changeTabSwitch(false);
+              changeTabNumber(1);
+            }}>
+            Option 2
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item></Nav.Item>
+      </Nav>
+
+      <CSSTransition in={tabSwitch} classNames="tab" timeout={300}>
+        <TabContent tabNumber={tabNumber} changeTabSwitch={changeTabSwitch} />
+      </CSSTransition>
+    </div>
+  );
+}
+
+function TabContent(props) {
+  useEffect(() => {
+    props.changeTabSwitch(true);
+  });
+  return (
+    <div>
+      <h4>{`${props.tabNumber}번째 내용입니다.`}</h4>
     </div>
   );
 }

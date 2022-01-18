@@ -1,9 +1,12 @@
-import { useState, React } from "react";
+import { useState, React, createContext, useContext } from "react";
 import axios from "axios";
+
+let stockContext = createContext();
 
 function Home(props) {
   const shoes = props.shoes;
   const changeShoes = props.changeShoes;
+  const [stock, changeStock] = useState([10, 11, 12]);
   return (
     <div>
       <div className="p-5 mb-4 bg-light rounded-3 background">
@@ -21,11 +24,13 @@ function Home(props) {
       </div>
 
       <div className="container">
-        <div className="row">
-          {shoes.map((shoe, index) => {
-            return <Card shoe={shoe} key={index} />;
-          })}
-        </div>
+        <stockContext.Provider value={stock}>
+          <div className="row">
+            {shoes.map((shoe, index) => {
+              return <Card shoe={shoe} key={index} />;
+            })}
+          </div>
+        </stockContext.Provider>
 
         <button
           className="btn btn-primary"
@@ -45,6 +50,7 @@ function Home(props) {
 }
 
 function Card(props) {
+  const stock = useContext(stockContext);
   return (
     <div className="col-md-4">
       <img
@@ -56,6 +62,16 @@ function Card(props) {
       />
       <h4>{props.shoe.title}</h4>
       <p>{`${props.shoe.content} - $${props.shoe.price}`}</p>
+      <Test></Test>
+    </div>
+  );
+}
+
+function Test() {
+  const stock = useContext(stockContext);
+  return (
+    <div>
+      <p>Stock: {stock[0]}</p>
     </div>
   );
 }
