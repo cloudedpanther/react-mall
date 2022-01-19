@@ -35,7 +35,16 @@ function Details(props) {
           <button
             className="btn btn-danger"
             onClick={() => {
-              // props.dispatch();
+              props.dispatch({
+                type: "addToCart",
+                payload: {
+                  id: 2,
+                  name: "quivering jeans",
+                  quan: 11,
+                  price: 59000,
+                },
+              });
+              history.push("/cart");
             }}>
             주문하기
           </button>

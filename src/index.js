@@ -26,7 +26,7 @@ const cartState = [
 function cartReducer(state = cartState, action) {
   if (action.type === "addToCart") {
     let copy = [...state];
-    copy.push();
+    copy.push(action.payload);
     return copy;
   } else if (action.type === "increaseQuantity") {
     let copy = [...state];
