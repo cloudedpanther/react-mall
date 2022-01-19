@@ -1,8 +1,12 @@
 import { React } from "react";
 import { Table } from "react-bootstrap";
-import { connect } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 
-function Cart(props) {
+function Cart() {
+  const cartState = useSelector((state) => state.cartReducer);
+  const alertState = useSelector((state) => state.alertReducer);
+  const dispatch = useDispatch();
+
   return (
     <div>
       <Table striped bordered hover>
@@ -15,7 +19,7 @@ function Cart(props) {
           </tr>
         </thead>
         <tbody>
-          {props.cartState.map((e, i) => {
+          {cartState.map((e, i) => {
             return (
               <tr key={i}>
                 <td>{e.id}</td>
@@ -24,15 +28,11 @@ function Cart(props) {
                 <td>{e.price}</td>
                 <td>
                   <button
-                    onClick={() =>
-                      props.dispatch({ type: "increaseQuantity" })
-                    }>
+                    onClick={() => dispatch({ type: "increaseQuantity" })}>
                     +
                   </button>
                   <button
-                    onClick={() =>
-                      props.dispatch({ type: "decreaseQuantity" })
-                    }>
+                    onClick={() => dispatch({ type: "decreaseQuantity" })}>
                     -
                   </button>
                 </td>
@@ -42,23 +42,14 @@ function Cart(props) {
         </tbody>
       </Table>
 
-      {props.alertState === true ? (
+      {alertState === true ? (
         <div className="my-alert">
           <h4>할인할 때 빨리 구매하세요.</h4>
-          <button onClick={() => props.dispatch({ type: "closeAlert" })}>
-            닫기
-          </button>
+          <button onClick={() => dispatch({ type: "closeAlert" })}>닫기</button>
         </div>
       ) : null}
     </div>
   );
 }
 
-function stateToProps(state) {
-  return {
-    cartState: state.cartReducer,
-    alertState: state.alertReducer,
-  };
-}
-
-export default connect(stateToProps)(Cart);
+export default Cart;
