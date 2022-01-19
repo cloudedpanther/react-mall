@@ -6,17 +6,52 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 
 import { Provider } from "react-redux";
-import { createStore } from "redux";
+import { combineReducers, createStore } from "redux";
 
-const store = createStore(() => {
-  [
-    {
-      id: 0,
-      name: "dodoodo",
-      price: 200000,
-    },
-  ];
-});
+const cartState = [
+  {
+    id: 0,
+    name: "fancy cap",
+    quan: 23,
+    price: 52000,
+  },
+  {
+    id: 1,
+    name: "astonishing boots",
+    quan: 7,
+    price: 38000,
+  },
+];
+
+function cartReducer(state = cartState, action) {
+  if (action.type === "addToCart") {
+    let copy = [...state];
+    copy.push();
+    return copy;
+  } else if (action.type === "increaseQuantity") {
+    let copy = [...state];
+    copy[0].quan++;
+    return copy;
+  } else if (action.type === "decreaseQuantity") {
+    let copy = [...state];
+    if (copy[0].quan > 0) copy[0].quan--;
+    return copy;
+  } else {
+    return state;
+  }
+}
+
+const alertState = true;
+
+function alertReducer(state = alertState, action) {
+  if (action.type === "closeAlert") {
+    return false;
+  } else {
+    return state;
+  }
+}
+
+const store = createStore(combineReducers({ cartReducer, alertReducer }));
 
 ReactDOM.render(
   <React.StrictMode>

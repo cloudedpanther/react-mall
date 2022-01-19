@@ -2,6 +2,7 @@ import { useState, React, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { Nav } from "react-bootstrap";
 import { CSSTransition } from "react-transition-group";
+import { connect } from "react-redux";
 
 function Details(props) {
   const history = useHistory();
@@ -31,7 +32,13 @@ function Details(props) {
           <h4 className="pt-5">{shoe.title}</h4>
           <p>{shoe.content}</p>
           <p>{shoe.price}</p>
-          <button className="btn btn-danger">주문하기</button>
+          <button
+            className="btn btn-danger"
+            onClick={() => {
+              // props.dispatch();
+            }}>
+            주문하기
+          </button>
           <button
             className="btn btn-danger"
             onClick={() => {
@@ -84,4 +91,10 @@ function TabContent(props) {
   );
 }
 
-export default Details;
+function stateToProps(state) {
+  return {
+    cartState: state.cartReducer,
+  };
+}
+
+export default connect()(Details);

@@ -5,6 +5,7 @@ import Data from "./data";
 import { Link, Route, Switch } from "react-router-dom";
 import Home from "./home";
 import Details from "./details";
+import Cart from "./cart";
 
 function App() {
   const [shoes, changeShoes] = useState(Data);
@@ -51,6 +52,10 @@ function App() {
 
         <Route exact path="/details/:id">
           <Details shoes={shoes} />
+        </Route>
+
+        <Route exact path="/shopping-cart">
+          <Cart />
         </Route>
 
         {/* <Route path="/:id">
